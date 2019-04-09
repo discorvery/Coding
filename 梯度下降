@@ -1,0 +1,46 @@
+'''
+   基于梯度下降求解函数
+    p = 2(x + 3)(y - x)
+    e = x + 3
+    f = y - x
+   基本思路:
+           1.先求偏导
+           2.链式法则
+           3.梯度下降
+           4.求解δx, δy
+'''
+x, y = 1, 2
+# 目标函数
+a = 12
+# 学习率
+r = 0.01
+
+e = lambda x: x+3
+f = lambda x, y: y - x
+p = lambda x, y: 2 * e(x) * f(x, y)
+# 求解偏导
+pe = lambda x, y: 2 * f(x, y)
+pf = lambda x, y: 2 * e(x)
+ex = 1
+fx = -1
+fy = 1
+
+# 链式法则
+px = lambda x, y: pe(x, y) * ex + pf(x, y) * fx
+py = lambda x, y: pf(x, y) * fy
+
+# 变量求解
+dx = lambda x, y: px(x, y) * r * (a - p(x, y))
+dy = lambda x, y: py(x, y) * r * (a - p(x, y))
+
+# 更新变量
+
+for i in range(1,21):
+    # x, y值得更新
+    x, y = x + dx(x, y), y + dy(x, y)
+    
+    print("~"*50)
+    print('第%d次的数值变化'%i)
+    print("x变动为 %.10f,y变动为 %.10f"%(x, y))
+    print("预测值为 %.10f"%p(x, y))
+    print("~"*50)
